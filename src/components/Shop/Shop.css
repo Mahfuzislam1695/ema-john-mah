@@ -1,11 +1,17 @@
-.twin-container{
-    display: flex;
+.search-container{
+    background-color: rgba(0, 0, 0, 0.85);
+    text-align: center;
+    line-height: 40px;
 }
-
+.search-container input{
+    width: 75%;
+}
+.shop-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
 .product-container{
-    width: 70%;
-    margin-left: 20px;
+    border-right: 1px solid lightgray;
     margin-right: 5px;
-    border-right: 1px solid lightgrey;
-
+    margin-left: 50px;
 }

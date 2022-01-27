@@ -1,32 +1,34 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
-import './Product.css'
-import { Link } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import './Product.css';
+import Rating from 'react-rating';
 
 const Product = (props) => {
     // console.log(props);
-    const { img, name, seller, price, stock, key} = props.product;
+    const { name, img, seller, price, stock, star } = props.product;
+
     return (
         <div className="product">
             <div>
                 <img src={img} alt="" />
             </div>
-            <div className="product-name">
-                <h4> <Link to ={'/product/'+key}>{name}</Link> </h4>
-                <br />
+            <div>
+                <h4 className="product-name">{name}</h4>
                 <p><small>by: {seller}</small></p>
-                <p>${price}</p>
-                <p><small>Only {stock} Left in stock- Order soon</small></p>
-                
-                {props.showAddToCard  && <button 
-                    className="main-button" 
-                    onClick={ () => props.handleAddProduct(props.product)}>
-                     <FontAwesomeIcon icon={faShoppingCart} /> add to card
-                     </button>}
+                <p>Price: {price}</p>
+                <p><small>only {stock} left in stock - order soon</small></p>
+                <Rating
+                    initialRating={star}
+                    emptySymbol="far fa-star icon-color"
+                    fullSymbol="fas fa-star icon-color"
+                    readonly></Rating>
+                <br />
+                <button
+                    onClick={() => props.handleAddToCart(props.product)}
+                    className="btn-regular"
+                ><FontAwesomeIcon icon={faShoppingCart} /> add to cart</button>
             </div>
-
         </div>
     );
 };

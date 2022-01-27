@@ -1,45 +1,33 @@
 import React from 'react';
-
+import './Cart.css';
 
 const Cart = (props) => {
-    const cart = props.cart;
-    // console.log(cart);
-    // const total = cart.reduce( (total, prd) => total + prd.price, 0)
+    const { cart } = props;
+    // const totalReducer = (previous, product) => previous + product.price;
+    // const total = cart.reduce(totalReducer, 0);
+    let totalQuantity = 0;
     let total = 0;
-    for (let i = 0; i < cart.length; i++) {
-        const product = cart[i];
+    for (const product of cart) {
+        if (!product.quantity) {
+            product.quantity = 1;
+        }
         total = total + product.price * product.quantity;
-    }
-    let shipping = 0;
-    if (total > 35) {
-        shipping = 0;
-    }
-    else if (total > 15) {
-        shipping = 4.99;
+        totalQuantity = totalQuantity + product.quantity;
     }
 
-    else if (total > 0) {
-        shipping = 12.99
-    }
-    const tax = (total / 10).toFixed(2) ;
-    const grandTotal = (total+shipping+ Number(tax)).toFixed(2);
-    const formatNumber = num =>{
-        const precision = num.toFixed(2);
-        return Number(precision)
-    }
+    const shipping = total > 0 ? 15 : 0;
+    const tax = (total + shipping) * 0.10;
+    const grandTotal = total + shipping + tax;
     return (
         <div>
-            <h4>Order Summary</h4>
-            <p>Items Ordered: {cart.length}</p>
-            <p>Product Price : {formatNumber(total)}</p>
-            <p><small>Shipping Cost: {shipping}</small></p>
-            <p><small>Tax+Vat: {tax}</small></p>
-            {<p>Total Price: {grandTotal}</p>}
+            <h3>Order Summary</h3>
+            <h5>Items Ordered: {totalQuantity}</h5>
             <br />
-            {
-                props.children
-            }
-            
+            <p>Total: {total.toFixed(2)}</p>
+            <p>Shipping: {shipping}</p>
+            <p>tax: {tax.toFixed(2)}</p>
+            <p>Grand Total: {grandTotal.toFixed(2)}</p>
+            {props.children}
         </div>
     );
 };

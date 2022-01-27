@@ -1,52 +1,39 @@
-import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
-import Shop from './components/Shop/Shop';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import Review from './components/Review/Review';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
-import ProductDetails from './components/ProductDetails/ProductDetails';
-import Shipment from './components/Shipment/Shipment';
-import Login from './components/Login/Login';
+import OrderReview from './components/OrderReview/OrderReview';
+import PlaceOrder from './components/PlaceOrder/PlaceOrder';
+import Shop from './components/Shop/Shop';
 
 function App() {
   return (
     <div>
-      <Header></Header>
       <Router>
+        <Header></Header>
         <Switch>
-          <Route path ="/shop">
+          <Route exact path="/">
             <Shop></Shop>
           </Route>
-          <Route path ="/review">
-            <Review></Review>
+          <Route path="/shop">
+            <Shop></Shop>
           </Route>
-          <Route path ="/inventory">
+          <Route path="/review">
+            <OrderReview></OrderReview>
+          </Route>
+          <Route path="/inventory">
             <Inventory></Inventory>
           </Route>
-          <Route path ="/shipment">
-            <Shipment></Shipment>
+          <Route path="/placeorder">
+            <PlaceOrder></PlaceOrder>
           </Route>
-          <Route path ="/login">
-            <Login></Login>
-          </Route>
-          <Route exact path ="/">
-            <Shop></Shop>
-          </Route>
-          <Route path ="/product/:productKey">
-            <ProductDetails></ProductDetails>
-          </Route>
-          <Route path ="*">
+          <Route path="*">
             <NotFound></NotFound>
           </Route>
         </Switch>
       </Router>
-       
+
     </div>
   );
 }

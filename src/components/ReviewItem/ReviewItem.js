@@ -1,18 +1,16 @@
 import React from 'react';
-import ('./ReviewItem.css');
 
 const ReviewItem = (props) => {
-    const {name, quantity,key, price} = props.product;
+    const { name, price, quantity, key } = props.product;
+    const { handleRemove } = props;
     return (
-        <div className ='review-item'>
-            <h4 className='product-name'>{name}</h4>
-            <p> Quantity: {quantity}</p>
-            <p><small>${price}</small></p>
-            <br />
-            <button className='main-button' 
-            onClick = { () => props.removeProduct(key)}>
-                
-            Remove</button>
+        <div className="product">
+            <div>
+                <h4 className="product-name">{name}</h4>
+                <p>Price: {price}</p>
+                <p>Quantity: {quantity}</p>
+                <button onClick={() => handleRemove(key)} className="btn-regular">Remove</button>
+            </div>
         </div>
     );
 };
