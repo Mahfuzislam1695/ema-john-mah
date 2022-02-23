@@ -24,7 +24,7 @@ const Orders = () => {
 
             })
             .then(data => setOrders(data));
-    }, [])
+    }, [history, user.email])
 
     return (
         <div>

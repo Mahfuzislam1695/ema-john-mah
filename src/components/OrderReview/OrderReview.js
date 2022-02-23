@@ -1,9 +1,8 @@
 import React from 'react';
-import useProducts from '../../hooks/useProducts';
 import useCart from '../../hooks/useCart';
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
-import { clearTheCart, removeFromDb } from '../../utilities/fakedb';
+import { removeFromDb } from '../../utilities/fakedb';
 import { useHistory } from 'react-router';
 
 const OrderReview = () => {
