@@ -2,29 +2,22 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import useAuth from './../../hooks/useAuth';
-import { useHistory } from 'react-router';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
-    const { user } = useAuth();
-    const history = useHistory();
-    useEffect(() => {
-        fetch(`https://blooming-bastion-94256.herokuapp.com/orders?email=${user.email}`, {
-            headers: {
-                'authorization': `Bearer ${localStorage.getItem('idToken')}`
-            }
-        })
-            .then(res => {
-                if (res.status === 200) {
-                    return res.json();
-                }
-                else if (res.status === 401) {
-                    history.push('/login');
-                }
+    const { user, token } = useAuth();
+    
 
-            })
+    useEffect(() => {
+        const url =`https://blooming-bastion-94256.herokuapp.com/orders?email=${user.email}`
+         fetch(url, {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+         })
+            .then(res => res.json())
             .then(data => setOrders(data));
-    }, [history, user.email])
+    }, [token ,user.email]);
 
     return (
         <div>

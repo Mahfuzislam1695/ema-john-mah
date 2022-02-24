@@ -1,41 +1,68 @@
-import React from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Container, Typography, TextField, Button, CircularProgress, Alert } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid } from '@mui/material';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import './Login.css';
+
+
 
 const Login = () => {
-    const { signInUsingGoogle } = useAuth();
+    const [loginData, setLoginData] = useState({});
+    const { user, loginUser, signInWithGoogle, isLoading, authError } = useAuth()
+
     const location = useLocation();
     const history = useHistory();
-    const redirect_uri = location.state?.from || '/shop';
 
-
-    const handleGoogleLogin = () => {
-        signInUsingGoogle()
-            .then(result => {
-                history.push(redirect_uri);
-            })
+    const handleOnChange = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newLoginData = { ...loginData };
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
+    }
+    const handleLoginSubmit = e => {
+        loginUser(loginData.email, loginData.password, location, history);
+        e.preventDefault();
     }
 
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history)
+    }
     return (
-        <div className="login-form">
-            <div>
-                <h2>Login</h2>
-                <form>
-                    <input type="email" name="" id="" placeholder="Your Email" />
-                    <br />
-                    <input type="password" name="" id="" />
-                    <br />
-                    <input type="submit" value="Submit" />
-                </form>
-                <p>new to ema-john website? <Link to="/register">Create Account</Link></p>
-                <div>-------or----------</div>
-                <button
-                    className="btn-regular"
-                    onClick={handleGoogleLogin}
-                >Google Sign In</button>
-            </div>
-        </div>
+        <Container>
+                <Grid item sx={{ mt: 8 }} xs={12} md={6}>
+                    <Typography variant="body1" gutterBottom>Login</Typography>
+                    <form onSubmit={handleLoginSubmit}>
+                        <TextField
+                            sx={{ width: '75%', m: 1 }}
+                            id="standard-basic"
+                            label="Your Email"
+                            name="email"
+                            onChange={handleOnChange}
+                            variant="standard" />
+                        <TextField
+                            sx={{ width: '75%', m: 1 }}
+                            id="standard-basic"
+                            label="Your Password"
+                            type="password"
+                            name="password"
+                            onChange={handleOnChange}
+                            variant="standard" />
+
+                        <Button sx={{ width: '75%', m: 1 }} type="submit" variant="contained">Login</Button>
+                        <NavLink
+                            style={{ textDecoration: 'none' }}
+                            to="/register">
+                            <Button variant="text">New User? Please Register</Button>
+                        </NavLink>
+                        {isLoading && <CircularProgress />}
+                        {user?.email && <Alert severity="success">Login successfully!</Alert>}
+                        {authError && <Alert severity="error">{authError}</Alert>}
+                    </form>
+                    <p>------------------------</p>
+                    <Button onClick={handleGoogleSignIn} variant="contained">Google Sign In</Button>
+            </Grid>
+        </Container>
     );
 };
 
